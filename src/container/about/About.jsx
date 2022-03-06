@@ -3,18 +3,30 @@ import { motion } from 'framer-motion';
 
 import { images } from '../../constants';
 import './About.scss';
+import { urlFor, client } from '../../client';
 
-const abouts = [
-    { title: 'FrontEnd Development', description: 'I am a good web developer', imgUrl: images.about01 },
-    { title: 'BackEnd Development', description: 'I am a good web developer', imgUrl: images.about02 },
-    { title: 'Web3 Apps', description: 'I am a good web developer', imgUrl: images.about03 },
-    { title: 'UI/ UX Development', description: 'I am a good web developer', imgUrl: images.about04 },
+// const abouts = [
+//     { title: 'FrontEnd Development', description: 'I am a good web developer', imgUrl: images.about01 },
+//     { title: 'BackEnd Development', description: 'I am a good web developer', imgUrl: images.about02 },
+//     { title: 'Web3 Apps', description: 'I am a good web developer', imgUrl: images.about03 },
+//     { title: 'UI/ UX Development', description: 'I am a good web developer', imgUrl: images.about04 },
 
-]
+// ]
+
 const About = () => {
+    const [abouts, setAbouts] = useState([]);
+    useEffect(() => {
+        const query = '*[_type == "Abouts"]';
+
+        client.fetch(query)
+            .then((data) => {
+                setAbouts(data)
+            })
+    }, []);
     return (
         <>
-            <h2 className='head-text'>I Know That <span> Good Apps </span> <br /> means <span> Good Business.</span> </h2>
+            <br />
+            <h2 className='head-text'>Full Stack <span> Developer </span> and <span> Designer.</span> </h2>
 
             <div className='app__profiles'>
                 {abouts.map((about, index) => (
@@ -25,7 +37,7 @@ const About = () => {
                         className='app__profile-item'
                         key={about.title + index}
                     >
-                        <img src={about.imgUrl} alt='about.title' />
+                        <img src={urlFor(about.imgUrl)} alt='about.title' />
                         <h2 className='bold-text' style={{ marginTop: 20 }}>{about.title}</h2>
                         <p className='p-text' style={{ marginTop: 10 }}>{about.description}</p>
 
